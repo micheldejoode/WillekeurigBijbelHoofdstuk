@@ -1,2 +1,0 @@
-# WillekeurigBijbelHoofdstuk
-Willekeurig Bijbel Hoofdstuk
