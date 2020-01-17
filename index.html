@@ -41,11 +41,11 @@
 		
 		
 	</div>
-<iframe id="bible" src="" onLoad="hoogte();" height="5000" frameborder="0" style="width:100%; "></iframe>
+<iframe id="bible" src="" height="5000" frameborder="0" style="width:100%; "></iframe>
 
 
 <script>
-
+	//v1.1 - with index, every chapter is even weighted
 	var bible_chapters = [
 		{book: "Genesis", chapter: 50, abbr: "gen"},
 		{book: "Exodus", chapter: 40, abbr: "exo"},
@@ -115,30 +115,51 @@
 		{book: "Revelation", chapter: 22, abbr: "rev"},
 	];
 
+	var create_index = function(index) {
+	var indexed = [];
+	var aap = 0;
+	var bookindex = 0;
+	
+	for (c = 0; c < 66; c++) {
+		for (d = 0; d < index[c].chapter; d++) {
+	
+			indexed[aap] = {book: index[c].book, chapter: (d+1),abbr: index[c].abbr,bookindex:bookindex};
+	
+			aap++;
+				
+			}
+		bookindex++;
+		}
+		
+	return indexed;
+	}
+	
+	
+	
+	var indexedversion = create_index(bible_chapters);
+			
 	var pick_chapter = function() {
-		if(window.paused !== true) {
-			var book_index = Math.floor(Math.random() * 66);
-			var chapter = Math.ceil(Math.random() * bible_chapters[book_index]["chapter"]);
-
-			var book = bible_chapters[book_index]["book"];
-			var abbr = bible_chapters[book_index]["abbr"];
-
+					
+			var count = Math.ceil(Math.random() * 1189-1);
+			
+			var chapter = indexedversion[count].chapter;
+			var book = indexedversion[count].book;
+			var abbr = indexedversion[count].abbr;
+			
+			
 			window.chapter = {
 				"book": book,
 				"chapter": chapter,
 				"abbr": abbr
-			};
-		console.log(window.chapter)
-		//window.open("https://www.bible.com/nl/bible/75/" + window.chapter.abbr + "." + window.chapter.chapter + ".gwt");
+				
+		};
+		
 		var iframe_src = "https://www.bible.com/nl/bible/75/" + window.chapter.abbr + "." + window.chapter.chapter + ".gwt";
-		console.log(iframe_src)
 		var el = document.getElementById('bible');
         el.src = iframe_src;
 		
-		
-		}
-	
 	}
+	
     pick_chapter();
 	
 	</script>
@@ -146,6 +167,6 @@
 	
 	
 	<div class="row" style="text-align: center;">
-<a align="center" href="https://github.com/micheldejoode/WillekeurigBijbelHoofdstuk" target="_blank">Over deze website</a> </div>   
+<a style="color: #aa7d49; font-family:helvetica; " align="center" href="https://github.com/micheldejoode/WillekeurigBijbelHoofdstuk" target="_blank">Over deze website</a> </div>   
 </body>
 </html>
