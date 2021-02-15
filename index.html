@@ -43,7 +43,12 @@
 	</div>
 <iframe id="bible" src="" height="5000" frameborder="0" style="width:100%; "></iframe>
 
+<script>
+import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
 
+const el = document.createElement('pwa-update');
+document.body.appendChild(el);	
+</script>
 <script>
 	//v1.1 - with index, every chapter is even weighted
 	var bible_chapters = [
