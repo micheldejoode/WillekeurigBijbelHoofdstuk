@@ -46,7 +46,7 @@
 
 <script>
 Notification.requestPermission().then(function(permission) { console.log('permiss', permission)});
-
+Notification.requestPermission().then(function(permission) { /* ... */ });
 const button = document.getElementById('notifications');
 button.addEventListener('click', () => {
   Notification.requestPermission().then((result) => {
