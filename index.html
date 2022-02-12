@@ -1,7 +1,10 @@
 <script>Notification.requestPermission().then(function(permission) { 
 
 
-  const greeting = new Notification('Hi, How are you?');
+  const greeting = new Notification('Hi, How are you?',{
+  body: 'Have a good day',
+  icon: './img/goodday.png'
+});
 
 });
 
