@@ -45,6 +45,8 @@
 <iframe title="bible" id="bible" src="" height="5000" frameborder="0" style="width:100%; "></iframe>
 
 <script>
+Notification.requestPermission().then(function(permission) { console.log('permiss', permission)});
+
 const button = document.getElementById('notifications');
 button.addEventListener('click', () => {
   Notification.requestPermission().then((result) => {
