@@ -52,7 +52,9 @@ button.addEventListener('click', () => {
   Notification.requestPermission().then((result) => {
     if (result === 'granted') {
       randomNotification();
-    }
+    } else {
+	alert('werkt niet')
+	}
   });
 })
 
