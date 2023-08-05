@@ -174,31 +174,6 @@ document.body.appendChild(el);
     pick_chapter();
 
 
-const button = document.getElementById("notifications");
-button.addEventListener("click", () => {
-  
-  Notification.requestPermission().then((result) => {
-    if (result === "granted") {
-      randomNotification();
-    }
-  });
-});
-
-function randomNotification() {
-  
-  const randomItem = 10;
-  const notifTitle = 'Dit is een test';
-  const notifBody = 'Body';
-  const notifImg = './favicon-32x32.png';
-  const options = {
-    body: notifBody,
-    icon: notifImg,
-    };
-  new Notification(notifTitle, options);
-  setTimeout(randomNotification, 30000);
-  
-}
-
 function notifyMe() {
   alert('test notify');
   if (!("Notification" in window)) {
@@ -207,14 +182,14 @@ function notifyMe() {
   } else if (Notification.permission === "granted") {
     // Check whether notification permissions have already been granted;
     // if so, create a notification
-    const notification = new Notification("Hi there!");
+    const notification = new Notification("Hi there! iframe_src");
     // …
   } else if (Notification.permission !== "denied") {
     // We need to ask the user for permission
     Notification.requestPermission().then((permission) => {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
-        const notification = new Notification("Hi there!");
+        const notification = new Notification("Hi there! iframe_src");
         // …
       }
     });
