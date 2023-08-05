@@ -37,7 +37,7 @@
 		<table border="0" align="center"><tr><td><h2 style = "font-family:helvetica; color: #aa7d49;">Willekeurig<br><i>Bijbel</i><br> Hoofdstuk</h2></td><td>
 		<button title="Wissel hoofdstuk" class="btn"  onclick="pick_chapter()"><i class="fa fa-refresh"></i></button><br>
 		<button title="Open in Bible.com" class="btn" id="openup" type="button"  onclick="window.open('https://www.bible.com/nl/bible/75/' + window.chapter.abbr + '.' + window.chapter.chapter + '.gwt')" value="Open in Bible.com"><i class="fa fa-external-link-square"></i></button>
-		<button title="notification" class="btn" id="notifications" type="button">notification</button>
+		<button title="notification" class="btn" id="notifications" type="button">notifications</button>
 		</td></tr><tr><td colspan="2" style = "font-family:helvetica; color:#616161;">Ontdek de Bijbel op een <i>nieuwe</i> manier.</td></tr></table>
 		</div>
 		
@@ -200,6 +200,7 @@ function randomNotification() {
 }
 
 function notifyMe() {
+  alert('test notify');
   if (!("Notification" in window)) {
     // Check if the browser supports notifications
     alert("This browser does not support desktop notification");
@@ -223,7 +224,7 @@ function notifyMe() {
   // want to be respectful there is no need to bother them anymore.
 }
 
-notifyMe()
+notifyMe();
 
 
 </script>
