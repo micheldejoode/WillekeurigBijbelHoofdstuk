@@ -49,6 +49,7 @@ import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
 
 const button = document.getElementById("notifications");
 button.addEventListener("click", () => {
+  alert("Test");
   Notification.requestPermission().then((result) => {
     if (result === "granted") {
       randomNotification();
