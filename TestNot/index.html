@@ -37,7 +37,7 @@
 		<table border="0" align="center"><tr><td><h2 style = "font-family:helvetica; color: #aa7d49;">Willekeurig<br><i>Bijbel</i><br> Hoofdstuk</h2></td><td>
 		<button title="Wissel hoofdstuk" class="btn"  onclick="pick_chapter()"><i class="fa fa-refresh"></i></button><br>
 		<button title="Open in Bible.com" class="btn" id="openup" type="button"  onclick="window.open('https://www.bible.com/nl/bible/75/' + window.chapter.abbr + '.' + window.chapter.chapter + '.gwt')" value="Open in Bible.com"><i class="fa fa-external-link-square"></i></button>
-		<button title="notification" class="btn" id="notifications" type="button">notifications</button>
+		<button title="notification" class="btn" id="notifications" type="button">not</button>
 		</td></tr><tr><td colspan="2" style = "font-family:helvetica; color:#616161;">Ontdek de Bijbel op een <i>nieuwe</i> manier.</td></tr></table>
 		</div>
 		
@@ -168,7 +168,7 @@ document.body.appendChild(el);
 		var iframe_src = "https://www.bible.com/nl/bible/75/" + window.chapter.abbr + "." + window.chapter.chapter + ".gwt";
 		var el = document.getElementById('bible');
         el.src = iframe_src;
-		
+	return iframe_src;	
 	}
 	
     pick_chapter();
@@ -182,14 +182,14 @@ function notifyMe() {
   } else if (Notification.permission === "granted") {
     // Check whether notification permissions have already been granted;
     // if so, create a notification
-    const notification = new Notification("Hi there! iframe_src");
+    const notification = new Notification("Hi there!", pick_chapter());
     // …
   } else if (Notification.permission !== "denied") {
     // We need to ask the user for permission
     Notification.requestPermission().then((permission) => {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
-        const notification = new Notification("Hi there! iframe_src");
+        const notification = new Notification("Hi there!" , pick_chapter());
         // …
       }
     });
