@@ -176,7 +176,7 @@ document.body.appendChild(el);
 	console.log(hoofdstukboek[0],hoofdstukboek[1]);
 
 
-function notifyMe() {
+function notifyMe(benh) {
   
   if (!("Notification" in window)) {
     // Check if the browser supports notifications
@@ -184,14 +184,14 @@ function notifyMe() {
   } else if (Notification.permission === "granted") {
     // Check whether notification permissions have already been granted;
     // if so, create a notification
-    const notification = new Notification("Dit is een test");
+    const notification = new Notification(benh);
     // …
   } else if (Notification.permission !== "denied") {
     // We need to ask the user for permission
     Notification.requestPermission().then((permission) => {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
-        const notification = new Notification("Dit is een test 2");
+        const notification = new Notification(benh);
         // …
       }
     });
@@ -201,7 +201,8 @@ function notifyMe() {
   // want to be respectful there is no need to bother them anymore.
 }
 
-//notifyMe();
+
+notifyMe(hoofdstukboek);
 
 function runAtSpecificTimeOfDay(hour, minutes, func)
 {
