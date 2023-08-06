@@ -4,6 +4,9 @@ const notificationButton = document.getElementById("enableNotifications");
 let swRegistration = null;
 
 initializeApp();
+setInterval(function(){
+    initializeApp()
+}, 60000)
 
 function initializeApp() {
   
