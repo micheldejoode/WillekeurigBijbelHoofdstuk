@@ -1,6 +1,6 @@
 "use strict";
 
-const notificationButton = document.getElementById("enableNotifications");
+const notificationButton = document.getElementById("notifications");
 let swRegistration = null;
 
 initializeApp();
