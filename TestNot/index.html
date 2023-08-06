@@ -169,10 +169,10 @@ document.body.appendChild(el);
 		var iframe_src = "https://www.bible.com/nl/bible/75/" + window.chapter.abbr + "." + window.chapter.chapter + ".gwt";
 		var el = document.getElementById('bible');
         el.src = iframe_src;
-	return iframe_src;	
+	return book,chapter;	
 	}
-	
-    console.log(pick_chapter());
+
+	console.log(pick_chapter());
 
 
 function notifyMe() {
@@ -219,17 +219,14 @@ function runAtSpecificTimeOfDay(hour, minutes, func)
   }, eta_ms);
 }
 
-runAtSpecificTimeOfDay(9,43,() => { console.log(new Date())
+/*runAtSpecificTimeOfDay(9,43,() => { console.log(new Date())
 				  notifyMe();
 				  });
+*/
 
-runAtSpecificTimeOfDay(9,45,() => { console.log(new Date())
-				  notifyMe();
-				  });
-
-runAtSpecificTimeOfDay(9,47,() => { console.log(new Date())
-				  notifyMe();
-				  });
+setInterval(function(){
+    notifyMe()
+}, 30000)
 
 
 var date = document.lastModified;
