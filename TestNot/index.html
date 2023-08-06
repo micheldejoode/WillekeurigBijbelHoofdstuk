@@ -168,12 +168,12 @@ document.body.appendChild(el);
 		
 		var iframe_src = "https://www.bible.com/nl/bible/75/" + window.chapter.abbr + "." + window.chapter.chapter + ".gwt";
 		var el = document.getElementById('bible');
-        //el.src = iframe_src;
-	return [book,chapter];	
+        el.src = iframe_src;
+	//return [book,chapter];	
 	}
 	
-	let hoofdstukboek = pick_chapter();
-	console.log(hoofdstukboek[0],hoofdstukboek[1]);
+	//let hoofdstukboek = pick_chapter();
+	//console.log(hoofdstukboek[0],hoofdstukboek[1]);
 
 
 function notifyMe(benh) {
@@ -184,14 +184,14 @@ function notifyMe(benh) {
   } else if (Notification.permission === "granted") {
     // Check whether notification permissions have already been granted;
     // if so, create a notification
-    const notification = new Notification(benh);
+    const notification = new Notification("Ontdek een nieuw Bijbelhoofdstuk!");
     // …
   } else if (Notification.permission !== "denied") {
     // We need to ask the user for permission
     Notification.requestPermission().then((permission) => {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
-        const notification = new Notification(benh);
+        const notification = new Notification("Ontdek een nieuw Bijbelhoofdstuk!");
         // …
       }
     });
@@ -225,11 +225,11 @@ function runAtSpecificTimeOfDay(hour, minutes, func)
 				  notifyMe();
 				  });
 */
-/*
+
 setInterval(function(){
     notifyMe()
-}, 30000)
-*/
+}, 60000)
+
 
 var date = document.lastModified;
       document.getElementById("result").innerHTML = "The document was last modified on : " + date;
