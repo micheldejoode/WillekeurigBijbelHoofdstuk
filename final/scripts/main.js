@@ -6,7 +6,7 @@ let swRegistration = null;
 initializeApp();
 
 function initializeApp() {
-  alert('function started');
+  
   if ("serviceWorker" in navigator && "PushManager" in window) {
     console.log("Service Worker and Push is supported");
 
