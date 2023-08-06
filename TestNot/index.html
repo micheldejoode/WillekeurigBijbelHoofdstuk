@@ -169,7 +169,7 @@ document.body.appendChild(el);
 		var iframe_src = "https://www.bible.com/nl/bible/75/" + window.chapter.abbr + "." + window.chapter.chapter + ".gwt";
 		var el = document.getElementById('bible');
         //el.src = iframe_src;
-	return book,chapter;	
+	return [book,chapter];	
 	}
 	
 	let hoofdstukboek = pick_chapter();
