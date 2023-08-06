@@ -172,7 +172,7 @@ document.body.appendChild(el);
 	return iframe_src;	
 	}
 	
-    //pick_chapter();
+    console.log(pick_chapter());
 
 
 function notifyMe() {
@@ -219,15 +219,15 @@ function runAtSpecificTimeOfDay(hour, minutes, func)
   }, eta_ms);
 }
 
-runAtSpecificTimeOfDay(9,36,() => { console.log(new Date())
+runAtSpecificTimeOfDay(9,43,() => { console.log(new Date())
 				  notifyMe();
 				  });
 
-runAtSpecificTimeOfDay(9,38,() => { console.log(new Date())
+runAtSpecificTimeOfDay(9,45,() => { console.log(new Date())
 				  notifyMe();
 				  });
 
-runAtSpecificTimeOfDay(9,40,() => { console.log(new Date())
+runAtSpecificTimeOfDay(9,47,() => { console.log(new Date())
 				  notifyMe();
 				  });
 
