@@ -1,6 +1,6 @@
 {
-    "name": "Willekeurig Bijbel Hoofdstuk",
-    "short_name": "WBH",
+    "name": "Test WBH",
+    "short_name": "TST WBH",
     "icons": [
         {
             "src": "https://micheldejoode.github.io/WillekeurigBijbelHoofdstuk/final/android-chrome-192x192.png",
