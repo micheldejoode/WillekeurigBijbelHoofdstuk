@@ -249,45 +249,63 @@
     const allChapters = build_index();
 
     async function pick_chapter() {
-      const filter = document.getElementById('testament-select').value;
-      const titleEl = document.getElementById('chapter-title');
-      const textEl = document.getElementById('text-content');
+  const filter = document.getElementById('testament-select').value;
+  const titleEl = document.getElementById('chapter-title');
+  const textEl = document.getElementById('text-content');
 
-      let pool = allChapters;
-      if (filter !== 'all') {
-        pool = allChapters.filter(ch => ch.testament === filter);
-      }
+  let pool = allChapters;
+  if (filter !== 'all') {
+    pool = allChapters.filter(ch => ch.testament === filter);
+  }
 
-      const selected = pool[Math.floor(Math.random() * pool.length)];
-      titleEl.innerText = `${selected.bookName} ${selected.chapter}`;
-      textEl.innerHTML = `<div class="loading"><i class="fa fa-spinner fa-spin"></i> Tekst inladen...</div>`;
+  const selected = pool[Math.floor(Math.random() * pool.length)];
+  titleEl.innerText = `${selected.bookName} ${selected.chapter}`;
+  textEl.innerHTML = `<div class="loading"><i class="fa fa-spinner fa-spin"></i> Tekst inladen uit Het Boek...</div>`;
 
-      // Bible.com URL voor Het Boek (ID 75 = HTB)
-      const bibleUrl = `https://www.bible.com/nl/bible/75/${selected.abbr}.${selected.chapter}.HTB`;
-      const proxyFetchUrl = `${WORKER_URL}?url=${encodeURIComponent(bibleUrl)}`;
+  // Bible.com URL voor Het Boek (ID 75 = HTB)
+  const bibleUrl = `https://www.bible.com/nl/bible/75/${selected.abbr}.${selected.chapter}.HTB`;
+  const proxyFetchUrl = `${WORKER_URL}?url=${encodeURIComponent(bibleUrl)}`;
 
-      try {
-        const response = await fetch(proxyFetchUrl);
-        if (!response.ok) throw new Error("Proxy fout");
+  try {
+    const response = await fetch(proxyFetchUrl);
+    if (!response.ok) throw new Error("Proxy fout");
 
-        const htmlText = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlText, 'text/html');
+    const htmlText = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlText, 'text/html');
 
-        // Haal de Bijbeltekst-container uit de HTML van Bible.com
-        const chapterContainer = doc.querySelector('div[class*="ChapterContent_chapter"]');
+    // 1. Probeer de tekst uit de Next.js JSON-data te halen
+    const nextDataScript = doc.querySelector('script[id="__NEXT_DATA__"]');
+    
+    if (nextDataScript) {
+      const jsonData = JSON.parse(nextDataScript.textContent);
+      // Zoek naar het hoofdstuk-content object in de Next.js props
+      const pageProps = jsonData?.props?.pageProps;
+      const chapterContent = pageProps?.chapterData?.content || pageProps?.content;
 
-        if (chapterContainer) {
-          textEl.innerHTML = chapterContainer.innerHTML;
-          textEl.scrollTop = 0;
-        } else {
-          textEl.innerHTML = `<div class="error">Kon de tekst niet uit het Bible.com format extraheren. <br><a href="${bibleUrl}" target="_blank">Open op Bible.com</a></div>`;
-        }
-
-      } catch (err) {
-        textEl.innerHTML = `<div class="error">Fout bij laden van tekst. Controleer de Cloudflare Worker URL.</div>`;
+      if (chapterContent) {
+        textEl.innerHTML = chapterContent;
+        textEl.scrollTop = 0;
+        return;
       }
     }
+
+    // 2. Fallback: Probeer de HTML elementen direct te pakken als JS al gerendert was
+    const chapterContainer = doc.querySelector('div[class*="ChapterContent_chapter"]') || 
+                             doc.querySelector('.chapter') || 
+                             doc.querySelector('main');
+
+    if (chapterContainer) {
+      textEl.innerHTML = chapterContainer.innerHTML;
+      textEl.scrollTop = 0;
+    } else {
+      textEl.innerHTML = `<div class="error">Kon de tekst niet uit de pagina lezen.<br><a href="${bibleUrl}" target="_blank" style="color:#aa7d49;">Open direct op Bible.com</a></div>`;
+    }
+
+  } catch (err) {
+    textEl.innerHTML = `<div class="error">Fout bij laden van tekst via de worker. Controleer of de WORKER_URL klopt.</div>`;
+  }
+}
 
     pick_chapter();
   </script>
