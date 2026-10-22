@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Willekeurig Bijbel Hoofdstuk" />
+  <title>Willekeurig Bijbel Hoofdstuk</title>
+ 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="manifest" href="./manifest.json">
+ 
+  <style>
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      background-color: #f9f8f6;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    h2 {
+      color: #aa7d49;
+      margin-top: 0;
+    }
+    .subtitle {
+      color: #616161;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .filter-group {
+      margin-bottom: 25px;
+    }
+    select {
+      padding: 10px 14px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      color: #333;
+      outline: none;
+      background-color: #fff;
+      cursor: pointer;
+    }
+    .result-box {
+      margin: 25px 0;
+      padding: 20px;
+      background-color: #fdfaf6;
+      border: 1px dashed #aa7d49;
+      border-radius: 8px;
+    }
+    .chapter-display {
+      font-size: 24px;
+      font-weight: bold;
+      color: #aa7d49;
+      margin: 10px 0;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .btn {
+      border: none;
+      background-color: #aa7d49;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background-color: #8c6437;
+    }
+    .btn-secondary {
+      background-color: #ece6df;
+      color: #aa7d49;
+    }
+    .btn-secondary:hover {
+      background-color: #dfd5c9;
+    }
+    footer {
+      margin-top: auto;
+      padding-top: 20px;
+    }
+    footer a {
+      color: #aa7d49;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Willekeurig<br><i>Bijbel</i><br> Hoofdstuk</h2>
+    <div class="subtitle">Ontdek de Bijbel op een <i>nieuwe</i> manier.</div>
+
+    <!-- Testamenten selectie -->
+    <div class="filter-group">
+      <label for="testament-select"><strong>Bereik:</strong> </label>
+      <select id="testament-select" onchange="pick_chapter()">
+        <option value="all">Hele Bijbel</option>
+        <option value="ot">Oude Testament</option>
+        <option value="nt">Nieuwe Testament</option>
+      </select>
+    </div>
+
+    <!-- Resultaat weergave -->
+    <div class="result-box">
+      <div>Geselecteerd hoofdstuk:</div>
+      <div id="chapter-title" class="chapter-display">-</div>
+    </div>
+
+    <!-- Actieknoppen -->
+    <div class="btn-group">
+      <button title="Nieuw willekeurig hoofdstuk" class="btn btn-secondary" onclick="pick_chapter()">
+        <i class="fa fa-refresh"></i> Vernieuwen
+      </button>
+      <a id="openup" title="Open in Bible.com" class="btn" href="#" target="_blank">
+        <i class="fa fa-external-link-square"></i> Open op Bible.com
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <a href="https://github.com/micheldejoode/WillekeurigBijbelHoofdstuk" target="_blank">Over deze website</a>
+  </footer>
+
+  <!-- PWA update script met het vereiste module type -->
+  <script type="module">
+    import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+    const el = document.createElement('pwa-update');
+    document.body.appendChild(el);
+  </script>
+
+  <script>
+    const bible_chapters = [
+      // Oude Testament (0 t/m 38)
+      {book: "Genesis", chapter: 50, abbr: "gen", testament: "ot"},
+      {book: "Exodus", chapter: 40, abbr: "exo", testament: "ot"},
+      {book: "Leviticus", chapter: 27, abbr: "lev", testament: "ot"},
+      {book: "Numeri", chapter: 36, abbr: "num", testament: "ot"},
+      {book: "Deuteronomium", chapter: 34, abbr: "deu", testament: "ot"},
+      {book: "Jozua", chapter: 24, abbr: "jos", testament: "ot"},
+      {book: "Rechters", chapter: 21, abbr: "jdg", testament: "ot"},
+      {book: "Rut", chapter: 4, abbr: "rut", testament: "ot"},
+      {book: "1 Samuel", chapter: 31, abbr: "1sa", testament: "ot"},
+      {book: "2 Samuel", chapter: 24, abbr: "2sa", testament: "ot"},
+      {book: "1 Koningen", chapter: 22, abbr: "1ki", testament: "ot"},
+      {book: "2 Koningen", chapter: 25, abbr: "2ki", testament: "ot"},
+      {book: "1 Kronieken", chapter: 29, abbr: "1ch", testament: "ot"},
+      {book: "2 Kronieken", chapter: 36, abbr: "2ch", testament: "ot"},
+      {book: "Ezra", chapter: 10, abbr: "ezr", testament: "ot"},
+      {book: "Nehemia", chapter: 13, abbr: "neh", testament: "ot"},
+      {book: "Ester", chapter: 10, abbr: "est", testament: "ot"},
+      {book: "Job", chapter: 42, abbr: "job", testament: "ot"},
+      {book: "Psalmen", chapter: 150, abbr: "psa", testament: "ot"},
+      {book: "Spreuken", chapter: 31, abbr: "pro", testament: "ot"},
+      {book: "Prediker", chapter: 12, abbr: "ecc", testament: "ot"},
+      {book: "Hooglied", chapter: 8, abbr: "sng", testament: "ot"},
+      {book: "Jesaja", chapter: 66, abbr: "isa", testament: "ot"},
+      {book: "Jeremia", chapter: 52, abbr: "jer", testament: "ot"},
+      {book: "Klaagliederen", chapter: 5, abbr: "lam", testament: "ot"},
+      {book: "Ezechiël", chapter: 48, abbr: "ezk", testament: "ot"},
+      {book: "Daniël", chapter: 12, abbr: "dan", testament: "ot"},
+      {book: "Hosea", chapter: 14, abbr: "hos", testament: "ot"},
+      {book: "Joël", chapter: 3, abbr: "jol", testament: "ot"},
+      {book: "Amos", chapter: 9, abbr: "amo", testament: "ot"},
+      {book: "Obadja", chapter: 1, abbr: "oba", testament: "ot"},
+      {book: "Jona", chapter: 4, abbr: "jon", testament: "ot"},
+      {book: "Micha", chapter: 7, abbr: "mic", testament: "ot"},
+      {book: "Nahum", chapter: 3, abbr: "nam", testament: "ot"},
+      {book: "Habakuk", chapter: 3, abbr: "hab", testament: "ot"},
+      {book: "Sefanja", chapter: 3, abbr: "zep", testament: "ot"},
+      {book: "Haggai", chapter: 2, abbr: "hag", testament: "ot"},
+      {book: "Zacharia", chapter: 14, abbr: "zec", testament: "ot"},
+      {book: "Maleachi", chapter: 4, abbr: "mal", testament: "ot"},
+
+      // Nieuwe Testament (39 t/m 65)
+      {book: "Mattheüs", chapter: 28, abbr: "mat", testament: "nt"},
+      {book: "Markus", chapter: 16, abbr: "mrk", testament: "nt"},
+      {book: "Lukas", chapter: 24, abbr: "luk", testament: "nt"},
+      {book: "Johannes", chapter: 21, abbr: "jhn", testament: "nt"},
+      {book: "Handelingen", chapter: 28, abbr: "act", testament: "nt"},
+      {book: "Romeinen", chapter: 16, abbr: "rom", testament: "nt"},
+      {book: "1 Korintiërs", chapter: 16, abbr: "1co", testament: "nt"},
+      {book: "2 Korintiërs", chapter: 13, abbr: "2co", testament: "nt"},
+      {book: "Galaten", chapter: 6, abbr: "gal", testament: "nt"},
+      {book: "Efeziërs", chapter: 6, abbr: "eph", testament: "nt"},
+      {book: "Filippenzen", chapter: 4, abbr: "php", testament: "nt"},
+      {book: "Kolossenzen", chapter: 4, abbr: "col", testament: "nt"},
+      {book: "1 Tessalonicenzen", chapter: 5, abbr: "1th", testament: "nt"},
+      {book: "2 Tessalonicenzen", chapter: 3, abbr: "2th", testament: "nt"},
+      {book: "1 Timotheüs", chapter: 6, abbr: "1ti", testament: "nt"},
+      {book: "2 Timotheüs", chapter: 4, abbr: "2ti", testament: "nt"},
+      {book: "Titus", chapter: 3, abbr: "tit", testament: "nt"},
+      {book: "Filemon", chapter: 1, abbr: "phm", testament: "nt"},
+      {book: "Hebreeën", chapter: 13, abbr: "heb", testament: "nt"},
+      {book: "Jacobus", chapter: 5, abbr: "jas", testament: "nt"},
+      {book: "1 Petrus", chapter: 5, abbr: "1pe", testament: "nt"},
+      {book: "2 Petrus", chapter: 3, abbr: "2pe", testament: "nt"},
+      {book: "1 Johannes", chapter: 5, abbr: "1jn", testament: "nt"},
+      {book: "2 Johannes", chapter: 1, abbr: "2jn", testament: "nt"},
+      {book: "3 Johannes", chapter: 1, abbr: "3jn", testament: "nt"},
+      {book: "Judas", chapter: 1, abbr: "jud", testament: "nt"},
+      {book: "Openbaring", chapter: 22, abbr: "rev", testament: "nt"}
+    ];
+
+    // Genereert de volledige lijst met alle losse hoofdstukken per testament
+    function create_index(chapters) {
+      let indexed = [];
+      chapters.forEach(b => {
+        for (let c = 1; c <= b.chapter; c++) {
+          indexed.push({
+            book: b.book,
+            chapter: c,
+            abbr: b.abbr,
+            testament: b.testament
+          });
+        }
+      });
+      return indexed;
+    }
+
+    const allChaptersIndexed = create_index(bible_chapters);
+
+    function pick_chapter() {
+      const selectedFilter = document.getElementById('testament-select').value;
+      
+      // Filter de lijst op basis van de geselecteerde optie
+      let pool = allChaptersIndexed;
+      if (selectedFilter !== 'all') {
+        pool = allChaptersIndexed.filter(ch => ch.testament === selectedFilter);
+      }
+
+      // Veilige willekeurige index genereren
+      const randomIndex = Math.floor(Math.random() * pool.length);
+      const selected = pool[randomIndex];
+
+      // UI bijwerken
+      document.getElementById('chapter-title').innerText = `${selected.book} ${selected.chapter}`;
+      
+      const targetUrl = `https://www.bible.com/nl/bible/75/${selected.abbr}.${selected.chapter}.gwt`;
+      document.getElementById('openup').href = targetUrl;
+    }
+
+    // Direct een eerste hoofdstuk kiezen bij het laden van de pagina
+    pick_chapter();
+  </script>
+</body>
+</html>
